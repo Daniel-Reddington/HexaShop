@@ -10,7 +10,7 @@ public class ProductTest {
 
     @Test
     void should_create_valid_product(){
-        Product product = new Product("Laptop", 1000);
+        Product product = Product.create("Laptop", 1000);
 
         assertEquals("Laptop", product.getName());
         assertEquals(1000, product.getPrice());
@@ -18,11 +18,11 @@ public class ProductTest {
 
     @Test
     void should_fail_when_price_is_negative(){
-        assertThrows(IllegalArgumentException.class, () -> new Product("Laptop", -100));
+        assertThrows(IllegalArgumentException.class, () -> Product.create("Laptop", -100));
     }
 
     @Test
     void should_fail_when_name_is_empty(){
-        assertThrows(IllegalArgumentException.class, () -> new Product("", 100));
+        assertThrows(IllegalArgumentException.class, () -> Product.create("", 100));
     }
 }

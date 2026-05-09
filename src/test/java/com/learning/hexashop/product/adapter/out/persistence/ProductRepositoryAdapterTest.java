@@ -16,7 +16,7 @@ public class ProductRepositoryAdapterTest {
 
     @Test
     void should_save_product(){
-        Product product = new Product("Laptop", 100);
+        Product product = Product.create("Laptop", 100);
 
         Product saved = repository.save(product);
 
