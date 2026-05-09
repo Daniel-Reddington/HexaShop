@@ -2,6 +2,7 @@ package com.learning.hexashop.product.application;
 
 import com.learning.hexashop.product.application.service.CreateProductService;
 import com.learning.hexashop.product.domain.model.Product;
+import com.learning.hexashop.product.domain.port.in.CreateProductCommand;
 import com.learning.hexashop.product.domain.port.in.CreateProductUseCase;
 import com.learning.hexashop.product.domain.port.out.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class CreateProductServiceTest {
 
         ProductRepository repository = new InMemoryProductRepository();
         CreateProductUseCase useCase = new CreateProductService(repository);
-        CreateProductRequest command = new CreateProductRequest("Phone",100);
+        CreateProductCommand command = new CreateProductCommand("Phone",100);
         Product product = useCase.create(command);
 
         assertNotNull(product);
