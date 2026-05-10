@@ -1,34 +1,27 @@
 package com.learning.hexashop.product.domain.model;
 
+import java.math.BigDecimal;
+
 public class Product {
 
     private final ProductId id;
-    private final String name;
-    private final double price;
+    private final ProductName name;
+    private final Price price;
 
-    public Product(ProductId id, String name, double price) {
-
-        if (name == null ||name.isBlank()) {
-            throw new IllegalArgumentException("Invalid product name");
-        }
-
-        if (price <= 0) {
-            throw new IllegalArgumentException("Invalid product price");
-        }
-
+    public Product(ProductId id, ProductName name, Price price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
 
-    public static Product create(String name, double price) {
-        return new Product(ProductId.generate(), name, price);
+    public static Product create(String name, BigDecimal price) {
+        return new Product(ProductId.generate(), new ProductName(name), new Price(price));
     }
 
     public ProductId getId() {return id;}
 
-    public String getName() {return name;}
+    public ProductName getName() {return name;}
 
-    public double getPrice() {return price;}
+    public Price getPrice() {return price;}
 
 }

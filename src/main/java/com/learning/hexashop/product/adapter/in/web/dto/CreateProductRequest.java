@@ -4,12 +4,14 @@ import com.learning.hexashop.product.domain.command.CreateProductCommand;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
+
 public record CreateProductRequest(
         @NotBlank(message = "Product name must not be blank")
         String name,
 
         @Positive(message = "Price must be positive")
-        double price) {
+        BigDecimal price) {
 
     public CreateProductCommand toCommand(){
         return new CreateProductCommand(name, price);

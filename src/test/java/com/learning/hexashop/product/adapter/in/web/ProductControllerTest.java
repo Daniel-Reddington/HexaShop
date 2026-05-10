@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class ProductControllerTest {
     @Test
     void should_create_product() throws Exception {
 
-        Product product = Product.create("Laptop", 100);
+        Product product = Product.create("Laptop", new BigDecimal(100));
         when(createProductUseCase.create(any())).thenReturn(product);
 
         String json = """
@@ -67,7 +68,7 @@ public class ProductControllerTest {
 
     @Test
     void should_get_product_by_id() throws Exception {
-        Product product = Product.create("Laptop", 100);
+        Product product = Product.create("Laptop", new BigDecimal(100));
         String id = product.getId().toString();
 
         when(getProductByIdUseCase.getById(any())).thenReturn(Optional.of(product));
@@ -81,8 +82,8 @@ public class ProductControllerTest {
 
     @Test
     void should_get_all_products_list() throws Exception {
-        Product product = Product.create("Laptop", 100);
-        Product product2 = Product.create("Phone", 100);
+        Product product = Product.create("Laptop", new BigDecimal(100));
+        Product product2 = Product.create("Phone", new BigDecimal(100));
 
         Page<Product> page = new PageImpl<>(List.of(product,  product2));
 

@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +29,7 @@ public class CreateProductServiceTest {
     @Test
     void should_create_product(){
 
-        CreateProductCommand command = new CreateProductCommand("Phone",100);
+        CreateProductCommand command = new CreateProductCommand("Phone",new BigDecimal("100"));
 
         when(repository.save(any(Product.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
@@ -35,8 +37,8 @@ public class CreateProductServiceTest {
         Product product = service.create(command);
 
         assertNotNull(product);
-        assertEquals("Phone", product.getName());
-        assertEquals(100, product.getPrice());
+        assertEquals("Phone", product.getName().value());
+        assertEquals(new BigDecimal("100"), product.getPrice().value());
         assertNotNull(product.getId());
 
         verify(repository).save(any(Product.class));

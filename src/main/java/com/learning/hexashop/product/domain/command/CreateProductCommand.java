@@ -1,4 +1,6 @@
 package com.learning.hexashop.product.domain.command;
 
-public record CreateProductCommand(String name, double price) {
+import java.math.BigDecimal;
+
+public record CreateProductCommand(String name, BigDecimal price) {
 }
