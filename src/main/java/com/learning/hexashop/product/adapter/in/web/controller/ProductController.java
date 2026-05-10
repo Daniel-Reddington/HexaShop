@@ -2,6 +2,7 @@ package com.learning.hexashop.product.adapter.in.web.controller;
 
 import com.learning.hexashop.product.adapter.in.web.dto.CreateProductRequest;
 import com.learning.hexashop.product.adapter.in.web.dto.ProductResponse;
+import com.learning.hexashop.product.domain.exception.ProductNotFoundException;
 import com.learning.hexashop.product.domain.model.ProductId;
 import com.learning.hexashop.product.domain.port.in.CreateProductUseCase;
 import com.learning.hexashop.product.domain.port.in.GetProductByIdUseCase;
@@ -10,7 +11,6 @@ import com.learning.hexashop.shared.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ApiResponse<ProductResponse> getById(@PathVariable String id) {
-        var response = getProductByIdUseCase.getById(ProductId.fromString(id)).orElseThrow(() -> new RuntimeException("Product not found"));
+        var response = getProductByIdUseCase.getById(ProductId.fromString(id)).orElseThrow(ProductNotFoundException::new);
 
         return ApiResponse.success(ProductResponse.from(response));
     }
