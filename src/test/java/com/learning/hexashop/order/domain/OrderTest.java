@@ -1,5 +1,7 @@
 package com.learning.hexashop.order.domain;
 
+import com.learning.hexashop.order.domain.model.Order;
+
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
