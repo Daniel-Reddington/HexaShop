@@ -1,6 +1,7 @@
 package com.learning.hexashop.product.adapter.in.web;
 
 import com.learning.hexashop.product.adapter.in.web.controller.ProductController;
+import com.learning.hexashop.product.domain.exception.ProductNotFoundException;
 import com.learning.hexashop.product.domain.model.Product;
 import com.learning.hexashop.product.domain.port.in.CreateProductUseCase;
 import com.learning.hexashop.product.domain.port.in.GetProductByIdUseCase;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -94,6 +96,18 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.data.content[0].price").value(100))
                 .andDo(print());
 
+    }
+
+    @Test
+    void should_return_404_not_found() throws Exception {
+
+        when(getProductByIdUseCase.getById(any())).thenThrow(new ProductNotFoundException());
+
+        mockMvc.perform(get("/products/{id}", UUID.randomUUID().toString()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Product not found"))
+                .andExpect(jsonPath("$.success").value(false))
+                .andDo(print());
     }
 
 }
