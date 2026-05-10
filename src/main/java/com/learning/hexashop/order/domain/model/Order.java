@@ -16,7 +16,7 @@ public class Order {
         return new Order(List.of());
     }
 
-    public List<OrderLine> getProducts() {
+    public List<OrderLine> getLines() {
         return lines;
     }}
 }
