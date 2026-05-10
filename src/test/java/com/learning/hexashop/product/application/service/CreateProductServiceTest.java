@@ -1,6 +1,5 @@
-package com.learning.hexashop.product.application;
+package com.learning.hexashop.product.application.service;
 
-import com.learning.hexashop.product.application.service.CreateProductService;
 import com.learning.hexashop.product.domain.model.Product;
 import com.learning.hexashop.product.domain.command.CreateProductCommand;
 import com.learning.hexashop.product.domain.port.out.ProductRepository;
