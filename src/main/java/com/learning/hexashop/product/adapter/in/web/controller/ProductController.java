@@ -8,6 +8,7 @@ import com.learning.hexashop.product.domain.port.in.CreateProductUseCase;
 import com.learning.hexashop.product.domain.port.in.GetProductByIdUseCase;
 import com.learning.hexashop.product.domain.port.in.GetProductsUseCase;
 import com.learning.hexashop.shared.api.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<ProductResponse> create(@RequestBody CreateProductRequest request) {
+    public ApiResponse<ProductResponse> create(@Valid @RequestBody CreateProductRequest request) {
         var command = request.toCommand();
 
         var response = createProductUseCase.create(command);

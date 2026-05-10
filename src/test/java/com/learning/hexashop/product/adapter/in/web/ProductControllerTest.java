@@ -110,4 +110,22 @@ public class ProductControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    public void should_return_400_when_request_invalid() throws Exception {
+        String json = """
+                {
+                    "name": "Laptop",
+                    "price": -100
+                }
+                """;
+
+        mockMvc.perform(post("/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("price: Price must be positive"))
+                .andExpect(jsonPath("$.success").value(false))
+                .andDo(print());
+    }
+
 }
