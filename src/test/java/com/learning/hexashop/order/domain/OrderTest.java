@@ -20,14 +20,24 @@ public class OrderTest {
         assertTrue(order.getLines().isEmpty());
     }
 
+    @Test
     void should_add_product_to_order(){
         Order order = Order.create();
 
         var productId = ProductId.generate();
-        var price = Price.of(new BigDecimal(100));
+        var price = Price.of(BigDecimal.valueOf(100));
 
-        order.add(productId, price, 2);
+        order.addProduct(productId, price, 2);
 
-        assertEquals(2, order.getLines().size());
+        assertEquals(1, order.getLines().size());
+    }
+
+    @Test
+    void should_not_allow_negative_quantity(){
+        Order order = Order.create();
+        var productId = ProductId.generate();
+        var price = Price.of(BigDecimal.valueOf(100));
+
+        assertThrows(IllegalArgumentException.class, () -> order.addProduct(productId, price, -1));
     }
 }
