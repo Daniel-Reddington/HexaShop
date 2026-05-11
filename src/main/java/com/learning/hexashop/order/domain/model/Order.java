@@ -31,4 +31,10 @@ public class Order {
         return lines.stream().map(OrderLine::total).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public void validate(){
+        if(lines.isEmpty()) {
+            throw new IllegalArgumentException("Order cannot be empty");
+        }
+    }
+
 }

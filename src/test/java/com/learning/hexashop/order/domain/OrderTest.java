@@ -42,7 +42,7 @@ public class OrderTest {
     }
 
     @Test
-    void shloud_calculate_total_of_order(){
+    void should_calculate_total_of_order(){
         Order order = Order.create();
         var productId1 = ProductId.generate();
         var productId2 = ProductId.generate();
@@ -53,5 +53,11 @@ public class OrderTest {
         var total = order.total();
 
         assertEquals(BigDecimal.valueOf(250), total);
+    }
+
+    @Test
+    void should_not_allow_empty_order_validation(){
+        Order order = Order.create();
+        assertThrows(IllegalArgumentException.class, order::validate);
     }
 }
