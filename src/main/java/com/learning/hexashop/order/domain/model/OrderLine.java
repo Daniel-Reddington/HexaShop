@@ -1,5 +1,6 @@
 package com.learning.hexashop.order.domain.model;
 
+import com.learning.hexashop.order.domain.exception.InvalidOrderException;
 import com.learning.hexashop.product.domain.model.Price;
 import com.learning.hexashop.product.domain.model.ProductId;
 
@@ -12,10 +13,7 @@ public class OrderLine {
     private int quantity;
 
     public  OrderLine(ProductId productId, Price price, int quantity) {
-
-        if(quantity < 0) {
-            throw new IllegalArgumentException("quantity must be positive");
-        }
+        validateQuantity(quantity);
         
         this.productId = productId;
         this.price = price;
@@ -27,9 +25,7 @@ public class OrderLine {
     }
 
     public void increaseQuantity(int quantity) {
-        if(quantity < 0) {
-            throw new IllegalArgumentException("quantity must be positive");
-        }
+        validateQuantity(quantity);
         this.quantity += quantity;
     }
 
@@ -43,6 +39,12 @@ public class OrderLine {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public void validateQuantity(int quantity) {
+        if(quantity < 0) {
+            throw new InvalidOrderException("quantity must be positive");
+        }
     }
 
 }
