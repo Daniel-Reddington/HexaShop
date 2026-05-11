@@ -56,6 +56,16 @@ public class OrderTest {
     }
 
     @Test
+    void total_should_never_be_negative(){
+        Order order = Order.create();
+
+        var productId  = ProductId.generate();
+        order.addProduct(productId, Price.of(100), 2);
+
+        assertTrue(order.total().compareTo(BigDecimal.ZERO) >= 0);
+    }
+
+    @Test
     void should_not_allow_empty_order_validation(){
         Order order = Order.create();
         assertThrows(IllegalArgumentException.class, order::validate);
