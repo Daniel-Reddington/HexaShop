@@ -1,0 +1,98 @@
+package com.learning.hexashop.order.domain;
+
+import com.learning.hexashop.order.domain.model.Order;
+import com.learning.hexashop.product.domain.model.Price;
+import com.learning.hexashop.product.domain.model.ProductId;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+public class OrderTest {
+
+    @Test
+    void should_create_empty_order(){
+        Order order = Order.create();
+
+        assertNotNull(order);
+        assertTrue(order.getLines().isEmpty());
+    }
+
+    @Test
+    void should_add_product_to_order(){
+        Order order = Order.create();
+
+        var productId = ProductId.generate();
+        var price = Price.of(100);
+
+        order.addProduct(productId, price, 2);
+
+        assertEquals(1, order.getLines().size());
+    }
+
+    @Test
+    void should_not_allow_negative_quantity(){
+        Order order = Order.create();
+        var productId = ProductId.generate();
+        var price = Price.of(100);
+
+        assertThrows(IllegalArgumentException.class, () -> order.addProduct(productId, price, -1));
+    }
+
+    @Test
+    void should_calculate_total_of_order(){
+        Order order = Order.create();
+        var productId1 = ProductId.generate();
+        var productId2 = ProductId.generate();
+
+        order.addProduct(productId1, Price.of(100), 2);
+        order.addProduct(productId2, Price.of(50), 1);
+
+        var total = order.total();
+
+        assertEquals(BigDecimal.valueOf(250), total);
+    }
+
+    @Test
+    void total_should_never_be_negative(){
+        Order order = Order.create();
+
+        var productId  = ProductId.generate();
+        order.addProduct(productId, Price.of(100), 2);
+
+        assertTrue(order.total().compareTo(BigDecimal.ZERO) >= 0);
+    }
+
+    @Test
+    void should_not_allow_empty_order_validation(){
+        Order order = Order.create();
+        assertThrows(IllegalArgumentException.class, order::validate);
+    }
+
+    @Test
+    void should_merge_same_product(){
+        Order order = Order.create();
+
+        var productId = ProductId.generate();
+
+        order.addProduct(productId, Price.of(100), 2);
+        order.addProduct(productId, Price.of(100), 1);
+
+        assertEquals(1, order.getLines().size());
+        assertEquals(3, order.getLines().getFirst().getQuantity());
+    }
+
+    @Test
+    void should_remove_product_from_order(){
+        Order order = Order.create();
+
+        var productId = ProductId.generate();
+
+        order.addProduct(productId, Price.of(100), 2);
+        order.removeProduct(productId);
+
+        assertTrue(order.getLines().isEmpty());
+    }
+}
