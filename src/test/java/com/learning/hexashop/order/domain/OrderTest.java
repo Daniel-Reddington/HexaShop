@@ -60,4 +60,17 @@ public class OrderTest {
         Order order = Order.create();
         assertThrows(IllegalArgumentException.class, order::validate);
     }
+
+    @Test
+    void should_merge_same_product(){
+        Order order = Order.create();
+
+        var productId = ProductId.generate();
+
+        order.addProduct(productId, Price.of(100), 2);
+        order.addProduct(productId, Price.of(100), 1);
+
+        assertEquals(1, order.getLines().size());
+        assertEquals(3, order.getLines().getFirst().getQuantity());
+    }
 }

@@ -24,7 +24,16 @@ public class Order {
     }
 
     public void addProduct(ProductId  productId, Price price, int quantity) {
-        lines.add(new OrderLine(productId, price, quantity));
+        var existingLine = lines.stream()
+                .filter(line -> line.getProductId().equals(productId))
+                .findFirst();
+
+        if(existingLine.isPresent()) {
+            existingLine.get().increaseQuantity(quantity);
+        }else {
+            lines.add(new OrderLine(productId, price, quantity));
+        }
+
     }
 
     public BigDecimal total() {

@@ -9,7 +9,7 @@ public class OrderLine {
 
     private final ProductId productId;
     private final Price price;
-    private final int quantity;
+    private int quantity;
 
     public  OrderLine(ProductId productId, Price price, int quantity) {
 
@@ -25,4 +25,24 @@ public class OrderLine {
     public BigDecimal total() {
         return price.value().multiply(BigDecimal.valueOf(quantity));
     }
+
+    public void increaseQuantity(int quantity) {
+        if(quantity < 0) {
+            throw new IllegalArgumentException("quantity must be positive");
+        }
+        this.quantity += quantity;
+    }
+
+    public ProductId getProductId() {
+        return productId;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
 }
