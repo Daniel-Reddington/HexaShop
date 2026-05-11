@@ -73,4 +73,16 @@ public class OrderTest {
         assertEquals(1, order.getLines().size());
         assertEquals(3, order.getLines().getFirst().getQuantity());
     }
+
+    @Test
+    void should_remove_product_from_order(){
+        Order order = Order.create();
+
+        var productId = ProductId.generate();
+
+        order.addProduct(productId, Price.of(100), 2);
+        order.removeProduct(productId);
+
+        assertTrue(order.getLines().isEmpty());
+    }
 }

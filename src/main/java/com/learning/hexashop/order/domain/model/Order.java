@@ -46,4 +46,7 @@ public class Order {
         }
     }
 
+    public void removeProduct(ProductId productId) {
+        lines.removeIf(line -> line.getProductId().equals(productId));
+    }
 }
