@@ -3,6 +3,7 @@ package com.learning.hexashop.order.domain.model;
 import com.learning.hexashop.product.domain.model.Price;
 import com.learning.hexashop.product.domain.model.ProductId;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,10 @@ public class Order {
 
     public void addProduct(ProductId  productId, Price price, int quantity) {
         lines.add(new OrderLine(productId, price, quantity));
+    }
+
+    public BigDecimal total() {
+        return lines.stream().map(OrderLine::total).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

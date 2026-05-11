@@ -25,7 +25,7 @@ public class OrderTest {
         Order order = Order.create();
 
         var productId = ProductId.generate();
-        var price = Price.of(BigDecimal.valueOf(100));
+        var price = Price.of(100);
 
         order.addProduct(productId, price, 2);
 
@@ -36,8 +36,22 @@ public class OrderTest {
     void should_not_allow_negative_quantity(){
         Order order = Order.create();
         var productId = ProductId.generate();
-        var price = Price.of(BigDecimal.valueOf(100));
+        var price = Price.of(100);
 
         assertThrows(IllegalArgumentException.class, () -> order.addProduct(productId, price, -1));
+    }
+
+    @Test
+    void shloud_calculate_total_of_order(){
+        Order order = Order.create();
+        var productId1 = ProductId.generate();
+        var productId2 = ProductId.generate();
+
+        order.addProduct(productId1, Price.of(100), 2);
+        order.addProduct(productId2, Price.of(50), 1);
+
+        var total = order.total();
+
+        assertEquals(BigDecimal.valueOf(250), total);
     }
 }

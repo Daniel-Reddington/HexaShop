@@ -14,4 +14,8 @@ public record Price(BigDecimal value) {
         return new Price(value);
     }
 
+    public static Price of(double value) {
+        return new Price(new BigDecimal(value));
+    }
+
 }
