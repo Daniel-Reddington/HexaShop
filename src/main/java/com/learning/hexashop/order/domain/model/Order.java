@@ -9,14 +9,17 @@ import java.util.List;
 
 public class Order {
 
+    private final OrderId orderId;
+
     private final List<OrderLine> lines;
 
-    private Order(List<OrderLine> lines) {
+    private Order(OrderId id, List<OrderLine> lines) {
+        this.orderId = id;
         this.lines = lines;
     }
 
     public static Order create() {
-        return new Order(new ArrayList<>());
+        return new Order(OrderId.generate(), new ArrayList<>());
     }
 
     public List<OrderLine> getLines() {
